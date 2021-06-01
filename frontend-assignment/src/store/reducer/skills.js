@@ -3,7 +3,9 @@ import { actionTypes } from '../constants'
 const initilaState = {
     loading: false,
     data: "",
-    error: ""
+    error: "",
+    jobs: "",
+    jobsError: ""
 }
 
 export  const skills = (state=initilaState, action) => {
@@ -28,6 +30,27 @@ export  const skills = (state=initilaState, action) => {
                 loading: false,
                 data: "",
                 error: action.payload
+            }
+        case actionTypes.JOBS_RELATED_TO_SKILLS:
+            return {
+                ...state,
+                loading: true,
+                jobs: "",
+                jobsError: ""
+            }
+        case actionTypes.JOBS_RELATED_TO_SKILLS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                jobs: action.payload,
+                jobsError: ""
+            }
+        case actionTypes.JOBS_RELATED_TO_SKILLS_ERROR:
+            return {
+                ...state,
+                loading: false,
+                jobs: "",
+                jobsError: action.payload
             }
         default:
             return state
