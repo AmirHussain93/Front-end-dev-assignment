@@ -48,7 +48,9 @@ const Jobs = (props) => {
             {
                 debouncedSearchTerm && debouncedSearchTerm.length < 4 && <div>Please enter atleast 4 characters.</div>
             }
-            <Select 
+            <Select
+                classNamePrefix="r-select"
+                width="200px"
                 value={selected}
                 isSearchable
                 isClearable

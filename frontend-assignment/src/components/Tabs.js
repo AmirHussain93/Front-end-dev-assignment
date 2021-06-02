@@ -16,26 +16,26 @@ const Tabs = (props) => {
 
     return (
         <div className="tabs">
-        <ol className="tab-list">
-          {children.map((child) => {
-            const { label } = child.props;
+          <ol className="tab-list">
+            {children.map((child) => {
+              const { label } = child.props;
 
-            return (
-              <Tab
-                activeTab={activetab}
-                key={label}
-                label={label}
-                onTabClick={onClickTabItem}
-              />
-            );
-          })}
-        </ol>
-        <div className="tab-content">
-          {children.map((child) => {
-            if (child.props.label !== activetab) return undefined;
-            return child.props.children;
-          })}
-        </div>
+              return (
+                <Tab
+                  activeTab={activetab}
+                  key={label}
+                  label={label}
+                  onTabClick={onClickTabItem}
+                />
+              );
+            })}
+          </ol>
+          <div className="tab-content">
+            {children.map((child) => {
+              if (child.props.label !== activetab) return undefined;
+              return child.props.children;
+            })}
+          </div>
       </div>
     )
 }
