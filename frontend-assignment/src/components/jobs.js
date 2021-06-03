@@ -69,7 +69,7 @@ const Jobs = (props) => {
                 isClearable
                 isLoading={loading}
                 loadingMessage={() => CustomLoader()}
-                placeholder="Please enter skill with length greater than or equal to 4"
+                placeholder="Please enter skill name with length greater than or equal to 4"
                 onChange={handleChange}
                 options={options}
                 onInputChange={handleInputChange}
