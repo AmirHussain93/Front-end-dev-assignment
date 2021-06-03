@@ -16,7 +16,7 @@ const Skills = (props) => {
         if (debouncedSearchTerm && debouncedSearchTerm.length >= 4) {
             getJobs(debouncedSearchTerm)
         }
-    },[debouncedSearchTerm, getSkills]);
+    },[debouncedSearchTerm, getJobs]);
 
     useEffect(() => {
         if (list.length > 0) {
@@ -34,7 +34,7 @@ const Skills = (props) => {
         if (selected) {
             getSkills(selected.value)
         }
-    }, [selected, getJobs])
+    }, [selected, getSkills])
 
     const handleChange = (event) => {
         setSelected(event)
@@ -44,16 +44,30 @@ const Skills = (props) => {
         setSearch(value)
     }
 
+    const customStyles =  {
+        noOptionsMessage: (provided, state) => {
+            return {
+                ...provided,
+                color: "black"
+            }
+        },
+    }
+
+    const CustomLoader = () => <div className="dropdown-loader"></div>
+
     return (
         <>
             {
-                debouncedSearchTerm && debouncedSearchTerm.length < 4 && <div className="alert">Please enter atleast 4 characters.</div>
+                debouncedSearchTerm && debouncedSearchTerm.length < 4 && 
+                <div className="alert">Please enter atleast 4 characters.</div>
             }
             <Select 
                 value={selected}
                 isSearchable
                 isClearable
                 isLoading={loading}
+                styles={customStyles}
+                loadingMessage={() => CustomLoader()}
                 placeholder="Please enter job with length greater than or equal to 4"
                 onChange={handleChange}
                 options={options}
@@ -65,7 +79,8 @@ const Skills = (props) => {
                 skillsLoading && <div className="loader"></div>
             }
             {
-                skillsError && selected && <div className="job-skills-error">No jobs available for the skill {selected.label}. Please search something else.</div>
+                skillsError && selected && 
+                <div className="job-skills-error">No jobs available for the skill {selected.label}. Please search something else.</div>
             }
 
             {
@@ -89,8 +104,6 @@ const Skills = (props) => {
                             })
                         }
                     </tbody>
-                    
-                   
                 </table>
             }
         </>
@@ -102,7 +115,7 @@ const mapStateToProps = state => {
         list: state.jobs.data,
         skills: state.jobs.skills,
         skillsError: state.jobs.skillsError,
-        loading: state.jobs.loading,
+        loading: state.jobs.dataloading,
         skillsLoading: state.jobs.skillsLoading,
     }
 }

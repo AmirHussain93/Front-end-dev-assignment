@@ -8,10 +8,10 @@ function App() {
     <div className="main-box">
       <h1>Front end Assignment</h1>
       <Tabs>
-        <div label="Search skills By Jobs">
+        <div label="Search skills">
           <Skills/>
         </div>
-        <div label="Search Jobs By skills">
+        <div label="Search Jobs">
           <Jobs/>
         </div>
       </Tabs>

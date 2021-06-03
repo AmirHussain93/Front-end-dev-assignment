@@ -5,7 +5,8 @@ import { SkillsService } from '../services/skills';
 import useDebounce from './useDebounce';
 
 const Jobs = (props) => {
-    const { getSkills, list, getJobs, jobs, loading, error } = props;
+    const { getSkills, list, getJobs, jobs, loading, error, jobsLoading } = props;
+    console.log(loading)
     const [ search, setSearch ] = useState("")
     const [ selected, setSelected ] = useState(null);
     const [ options, setOptions ] = useState([]);
@@ -43,10 +44,22 @@ const Jobs = (props) => {
         setSearch(value)
     }
 
+    const customStyles =  {
+        noOptionsMessage: (provided, state) => {
+            return {
+                ...provided,
+                color: "black"
+            }
+        },
+    }
+
+    const CustomLoader = () => <div className="dropdown-loader"></div>
+
     return (
         <>
             {
-                debouncedSearchTerm && debouncedSearchTerm.length < 4 && <div>Please enter atleast 4 characters.</div>
+                debouncedSearchTerm && debouncedSearchTerm.length < 4 && 
+                <div className="alert">Please enter atleast 4 characters.</div>
             }
             <Select
                 classNamePrefix="r-select"
@@ -55,14 +68,21 @@ const Jobs = (props) => {
                 isSearchable
                 isClearable
                 isLoading={loading}
+                loadingMessage={() => CustomLoader()}
                 placeholder="Please enter skill with length greater than or equal to 4"
                 onChange={handleChange}
                 options={options}
                 onInputChange={handleInputChange}
+                styles={customStyles}
+                className="react-select"
             />
+             {
+                jobsLoading && <div className="loader"></div>
+            }
 
             {
-                error && selected && <div>No jobs available for the skill {selected.label}.</div>
+                error && selected && 
+                <div className="job-skills-error">No jobs available for the skill {selected.label}. Please search spmething else.</div>
             }
 
             {
@@ -86,8 +106,6 @@ const Jobs = (props) => {
                             })
                         }
                     </tbody>
-                    
-                   
                 </table>
             }
         </>
@@ -99,7 +117,8 @@ const mapStateToProps = state => {
         list: state.skills.data,
         jobs: state.skills.jobs,
         loading: state.skills.loading,
-        error: state.skills.jobsError
+        jobsLoading: state.skills.jobsLoading,
+        error: state.skills.jobsError,
     }
 }
 
